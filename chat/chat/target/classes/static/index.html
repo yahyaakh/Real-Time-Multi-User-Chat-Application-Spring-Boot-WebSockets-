@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App - Create Room & Chat</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        /* Basic Reset and Base Styles */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #e9ebee;
+            margin: 0;
+            padding: 0;
+        }
+        h1 { margin-top: 0; }
+
+        /* Container Styles */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Section Titles */
+        .title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        .radio-group {
+            margin-bottom: 15px;
+        }
+        .radio-group label {
+            display: inline-block;
+            margin-right: 20px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        button.accent {
+            display: block;
+            width: 100%;
+            background: #2196F3;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button.accent:hover {
+            background: #1976D2;
+        }
+
+        /* Hide sections by default */
+        .hidden { display: none; }
+
+        /* Chat Page Styles */
+        .chat-page-container {
+            margin-top: 20px;
+        }
+        #messageArea {
+            list-style: none;
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fafafa;
+            margin-bottom: 20px;
+        }
+        .connecting {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        /* Room List Styling */
+        #roomList {
+            padding: 0;
+            list-style: none;
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+        }
+        #roomList li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Room Creation Section (Shown First) -->
+<div id="room-type-page" class="container">
+    <h1 class="title">Create a Chat Room</h1>
+    <form id="room-typeForm" name="room-typeForm">
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="roomType" value="Public" checked> Public Room
+            </label>
+            <label>
+                <input type="radio" name="roomType" value="Private"> Private Room
+            </label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="roomName" placeholder="Room Name" autocomplete="off" class="form-control" required>
+        </div>
+        <!-- This field is toggled on if "Private" is selected -->
+        <div class="form-group hidden" id="passwordField">
+            <input type="password" id="roomPassword" placeholder="Room Password" autocomplete="off" class="form-control">
+        </div>
+        <button type="submit" class="accent room-type-submit">Create Room</button>
+    </form>
+    <!--A list to display available rooms  -->
+    <ul id="roomList"></ul>
+</div>
+
+<!-- Button to list all rooms -->
+<div class="container">
+    <button id="listRoomsButton" class="accent">Show All Rooms</button>
+    <!-- Container where the list of rooms will be displayed -->
+    <div id="roomsDisplay"></div>
+</div>
+
+<!-- Username Page (Initially Hidden) -->
+<div id="username-page" class="container hidden">
+    <h1 class="title">Join Chat Room</h1>
+    <form id="usernameForm" name="usernameForm">
+        <div class="form-group">
+            <input type="text" id="name" placeholder="Enter your username" autocomplete="off" class="form-control" required>
+        </div>
+        <button type="submit" class="accent username-submit">Start Chatting</button>
+    </form>
+</div>
+
+<!-- Chat Page (Initially Hidden) -->
+<div id="chat-page" class="container hidden">
+    <div class="chat-page-container">
+        <div class="connecting">Connecting...</div>
+        <ul id="messageArea"></ul>
+        <form id="messageForm" name="messageForm">
+            <div class="form-group">
+                <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control" required>
+            </div>
+            <button type="submit" class="accent message-submit">Send</button>
+        </form>
+    </div>
+</div>
+
+<!-- Include required libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<!-- Main JS file -->
+<script src="/js/main.js"></script>
+<!-- Prism Syntax Highlighter -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-powershell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+</body>
+</html>
